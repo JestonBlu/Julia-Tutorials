@@ -1,0 +1,17 @@
+<h2>Julia Markdown Example</h2>
+<h2>Packages</h2>
+<pre><code>using Distributions
+using Gadfly</code></pre>
+<h2>Parameters</h2>
+<pre><code>n &#61; 500
+x &#61; collect&#40;1:1:n&#41;
+w &#61; rand&#40;Normal&#40;&#41;, n&#41;
+
+## White Noise
+wn &#61; Array&#40;Float64, n&#41;
+
+for i in 2:n
+  wn&#91;i&#93; &#61; w&#91;i&#93;
+end
+
+plot&#40;x &#61; x, y &#61; wn, Geom.line&#41;</code></pre>

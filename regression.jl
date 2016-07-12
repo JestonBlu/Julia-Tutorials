@@ -24,3 +24,10 @@ H = X * β
 
 ## Leverage Points
 diag(H)
+
+
+a = [1, 2, 3]
+b = [1 2 3]
+
+exp(a, 2)
+b

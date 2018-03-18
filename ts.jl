@@ -1,7 +1,7 @@
 
 ## Packages
 using Distributions
-using Gadfly
+using Plots
 
 ## Parameters
 n = 500
@@ -15,7 +15,7 @@ for i in 2:n
   wn[i] = w[i]
 end
 
-plot(x = x, y = wn, Geom.line)
+plot(wn)
 
 ## Random Walk
 rw = Array(Float64, n)
@@ -24,7 +24,7 @@ for i in 2:n
   rw[i] = rw[i-1] + w[i]
 end
 
-plot(x = x, y = rw, Geom.line)
+plot(rw)
 
 
 ## Random Walk with drift
@@ -34,6 +34,4 @@ for i in 2:n
   rw_d[i] = .1 + rw_d[i-1] + w[i]
 end
 
-plot(x = x, y = rw_d, Geom.line)
-
-Markdown.parse_file()
+plot(rw_d)

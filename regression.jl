@@ -1,5 +1,3 @@
-using Gadfly
-
 ## Response Variable
 Y = [.25, .13, .65, .4, 1.1]
 
@@ -15,19 +13,8 @@ X = reshape([ones(Int, 5); collect(1:1:5)], 5, 2)
 ## Calculate Predicted values
 y = X * (β * Y)
 
-## Plot regression
-plot(layer(x = X[:,2], y = Y, Geom.point),
-     layer(x = X[:,2], y = y, Geom.line))
-
 ## Hat Matrix
 H = X * β
 
 ## Leverage Points
 diag(H)
-
-
-a = [1, 2, 3]
-b = [1 2 3]
-
-exp(a, 2)
-b

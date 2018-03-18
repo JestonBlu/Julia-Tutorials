@@ -1,6 +1,5 @@
-using DataFrames
+# Step Range
+[1:1:10]
 
-
-x = convert(Array, readtable("names.csv"))
-
-y = split(x[2], ' ')
+# Array
+collect(1:1:10)

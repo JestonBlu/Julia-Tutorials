@@ -2,7 +2,9 @@
 
 - Distributions
 - DataFrames
-- TimeSeries
-- Plots
+- TimeSeries (failing)
+- Plots (warning)
 - StatsModels
 - RDataSets (failing)
+- MLBase (failing)
+- GLM (warning)

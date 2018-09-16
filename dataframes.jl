@@ -28,3 +28,7 @@ push!(iris, [0, 0, 0, 0, "other"])
 # end and beginning of dataset
 tail(iris)
 head(iris)
+
+# summarizing
+describe(iris)
+Statistics.mean(iris[1]) # or using Statistics; mean(iris[1])

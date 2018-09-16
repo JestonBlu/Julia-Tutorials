@@ -1,11 +1,12 @@
 # Julia Packages
 
-- Distributions
+- Distributions (failing)
 - DataFrames
 - TimeSeries (failing)
-- Plots (warning)
+- Plots
 - StatsModels
-- RDataSets (failing)
-- MLBase (failing)
-- GLM (warning)
+- RDataSets
+- MLBase
+- GLM (failing)
 - CSV
+- Query

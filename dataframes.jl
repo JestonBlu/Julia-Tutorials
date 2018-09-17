@@ -1,5 +1,6 @@
 using RDatasets
 using DataFrames
+using Statistics
 
 iris = dataset("datasets", "iris")
 
@@ -31,4 +32,9 @@ head(iris)
 
 # summarizing
 describe(iris)
-Statistics.mean(iris[1]) # or using Statistics; mean(iris[1])
+mean(iris[1])
+
+# join
+x = DataFrame(Species = "setosa")
+join(iris, x, on = :Species)
+join(iris, x, on = :Species, kind = :left)

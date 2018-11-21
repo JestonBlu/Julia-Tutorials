@@ -2,7 +2,7 @@
 
 - Distributions (failing)
 - DataFrames
-- TimeSeries (failing)
+- TimeSeries
 - Plots
 - StatsModels
 - RDataSets

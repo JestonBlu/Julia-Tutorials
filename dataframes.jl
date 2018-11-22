@@ -13,7 +13,7 @@ iris[1:3, :]
 iris[:, 1:3]
 
 # operations across columns
-colwise(sum, iris[:,1:3])
+colwise(sum, iris[:, 1:3])
 
 # build a dataframe from scratch, quotations vs ticks matters
 DataFrame(A = 1:4, B = ["a", "b", "c", "d"])
@@ -38,3 +38,13 @@ mean(iris[1])
 x = DataFrame(Species = "setosa")
 join(iris, x, on = :Species)
 join(iris, x, on = :Species, kind = :left)
+
+# copy the dataframe
+iris2 = iris
+
+# rename columns
+names(iris)
+names(iris2)
+rename!(iris2, :Species => :Species2)
+# deepcopy prevents name changes from extending to source object
+names(iris)

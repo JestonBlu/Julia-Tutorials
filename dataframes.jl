@@ -27,8 +27,8 @@ size(iris)[2]
 push!(iris, [0, 0, 0, 0, "other"])
 
 # end and beginning of dataset
-tail(iris)
-head(iris)
+last(iris, 5)
+first(iris, 5)
 
 # summarizing
 describe(iris)

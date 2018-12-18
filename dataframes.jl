@@ -1,6 +1,8 @@
 using RDatasets
 using DataFrames
 using Statistics
+using Missings
+using CategoricalArrays
 
 # iris dataframe from R
 iris = dataset("datasets", "iris")
@@ -44,7 +46,7 @@ typeof(iris)
 
 # end and beginning of dataset
 last(iris, 5)
-first(iris, 5)
+first(iris)
 
 # summarizing
 describe(iris)
@@ -66,6 +68,9 @@ rename!(iris2, :Species => :Species2)
 
 # deepcopy prevents name changes from extending to source object
 names(iris)
+
+iris = dataset("datasets", "iris")
+
 
 # subsetting, . is for broadcasting
 iris[iris[:SepalLength] .> 2.0, :]
@@ -98,8 +103,61 @@ map((xcol,ycol) -> println(
 
     [:SepalWidth, :SepalLength],[:PetalWidth, :PetalLength]);
 
-# summarising
-by(iris, :Species2, :PetalLength => mean)
-by(iris, :Species2, N = :Species2 => length, mean = :PetalLength => mean)
-by(iris, :Species2, [:PetalLength, :SepalLength] =>
-              x -> (a=mean(x.PetalLength)/mean(x.SepalLength), b=sum(x.PetalLength)))
+## Split and Apply Functions
+# by function, similar to ddply function in R
+# [DF, Columns, aggregation functions]
+by(iris, :Species, N = :Species2 => length, mean = :PetalLength => mean)
+
+by(iris, :Species, [:PetalLength, :SepalLength] =>
+    x -> (a = mean(x.PetalLength) / mean(x.SepalLength),
+          b = sum(x.PetalLength)))
+
+# not the best performance
+by(iris, :Species) do df
+    (m = mean(df.PetalLength), s² = var(df.PetalLength))
+end
+
+# Aggregate function applies the function to all columns not part of the group by
+# [DF, Columns, aggregation function]
+aggregate(iris, :Species, length)
+aggregate(iris, :Species, [sum, mean])
+
+# For subsetting
+for subdf in groupby(iris, :Species)
+    println(size(subdf, 1))
+end
+
+## Reshaping
+x = first(iris, 2)
+
+# More control, pick the measure colums first, 3rd arguement is optionl group by
+stack(x, 1:2)
+stack(x, 1:4)
+stack(x, [:SepalLength, :SepalWidth, :PetalLength, :PetalWidth])
+
+# Pick the group by columns, melts all others
+x[:id] = 1:size(x, 1)
+x = melt(x, [:Species, :id])
+
+# Needs an id column
+unstack(x, :id, :variable, :value)
+
+# Combine melt and aggregation
+d = melt(iris, :Species)
+x = by(d, [:variable, :Species], df -> DataFrame(mean = mean(df.value)))
+
+## Sorting
+sort!(iris)
+sort!(iris, [:SepalWidth, :Species])
+sort!(iris, (:Species, order(:SepalLength, rev = true)))
+sort!(iris, (:Species, :SepalLength, :SepalWidth), rev = (true, false, false))
+sort!(iris, (order(:Species, rev = true), :SepalLength, :SepalWidth))
+
+## Categorical data
+cv = ["Group A", "Group A", "Group A", "Group B", "Group B", "Group B"]
+cv = CategoricalArray(["Group A", missing, "Group A", "Group B", "Group B", missing])
+
+levels(cv)
+levels(iris[:Species])
+
+categorical!(iris, :Species)

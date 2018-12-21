@@ -106,7 +106,7 @@ map((xcol,ycol) -> println(
 ## Split and Apply Functions
 # by function, similar to ddply function in R
 # [DF, Columns, aggregation functions]
-by(iris, :Species, N = :Species2 => length, mean = :PetalLength => mean)
+by(iris, :Species, N = :Species => length, mean = :PetalLength => mean)
 
 by(iris, :Species, [:PetalLength, :SepalLength] =>
     x -> (a = mean(x.PetalLength) / mean(x.SepalLength),

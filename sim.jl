@@ -3,9 +3,11 @@
 # For each value in a matrix, randomly select all possible adjacent values and
 # randomly assign an adjacent value to the current value, stop when one wins
 
+using DataFrames
+using Plots
 
 # Starting matrix size
-size = (3, 3)
+size = (9, 9)
 
 # Generate random matrix
 matrix = rand(1:8, size[1], size[2])
@@ -17,8 +19,11 @@ for i in 1:size[1], j in 1:size[2]
     push!(matrixPosition, (i,j))
 end
 
+# Temp for testing
+#x = matrixPosition[1]
+
 # Function for getting a list of all adjacent positions and values
-function getAdjacentPositions(x::Tuple, size::Tuple)
+function getAdjacentPositions(matrixPosition::Tuple, size::Tuple)
     # Position limits
     bottomRight = deepcopy(size)
     bottomLeft  = (size[1], size[2] - size[2] + 1)
@@ -26,10 +31,10 @@ function getAdjacentPositions(x::Tuple, size::Tuple)
     topLeft     = (size[1] - size[1] + 1, size[2] - size[2] + 1)
 
     # Positions adjacent to current
-    oneUp    = (x[1], x[2] - 1)
-    oneDown  = (x[1], x[2] + 1)
-    oneLeft  = (x[1] - 1, x[2])
-    oneRight = (x[1] + 1, x[2])
+    oneUp    = (matrixPosition[1], matrixPosition[2] - 1)
+    oneDown  = (matrixPosition[1], matrixPosition[2] + 1)
+    oneLeft  = (matrixPosition[1] - 1, matrixPosition[2])
+    oneRight = (matrixPosition[1] + 1, matrixPosition[2])
     positions = [oneUp, oneDown, oneLeft, oneRight]
 
     # Determine which positions fall within the bounds of the matrix
@@ -52,7 +57,7 @@ function getAdjacentPositions(x::Tuple, size::Tuple)
     positions = positions[:, 1]
 
     adjacentLength = length(positions)
-    adjacentValues = Array([])
+    adjacentValues = Array([matrix[matrixPosition[1], matrixPosition[2]]])
 
     # Loop through the adjacent positions to identify adjacent values
     for i in 1:adjacentLength
@@ -64,4 +69,7 @@ function getAdjacentPositions(x::Tuple, size::Tuple)
 end
 
 matrix = map(x -> getAdjacentPositions(matrixPosition[x], size), 1:length(matrix))
-matrix = reshape(matrix, 3, 3)
+matrix = reshape(matrix, size[1], size[2])
+
+# Still needs work
+heatmap(matrix)

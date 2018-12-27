@@ -4,7 +4,7 @@
 # randomly assign an adjacent value to the current value, stop when one wins
 
 using DataFrames
-using Plots
+using VegaLite
 
 # Starting matrix size
 size = (9, 9)
@@ -12,15 +12,11 @@ size = (9, 9)
 # Generate random matrix
 matrix = rand(1:8, size[1], size[2])
 
-# Create empy array and append each matrix position to loop through
+# Create empty array and append each matrix position to loop through
 matrixPosition = Array([])
-
 for i in 1:size[1], j in 1:size[2]
     push!(matrixPosition, (i,j))
 end
-
-# Temp for testing
-#x = matrixPosition[1]
 
 # Function for getting a list of all adjacent positions and values
 function getAdjacentPositions(matrixPosition::Tuple, size::Tuple)
@@ -68,8 +64,56 @@ function getAdjacentPositions(matrixPosition::Tuple, size::Tuple)
     return rand(adjacentValues)
 end
 
-matrix = map(x -> getAdjacentPositions(matrixPosition[x], size), 1:length(matrix))
-matrix = reshape(matrix, size[1], size[2])
+matrix = reshape(
+    map(x -> getAdjacentPositions(matrixPosition[x], size), 1:length(matrix)),
+    size[1], size[2]
+    )
 
-# Still needs work
-heatmap(matrix)
+# Plot the heatmap
+function heatmapPlot(matrix)
+
+    # Convert matrix into a data frame for plotting
+    function convertDataFrame(matrix)
+        x = []; y = []; z = []
+        for i in 1:size[1], j in 1:size[2]
+            push!(x, string("x", i))
+            push!(y, string("y", j))
+            push!(z, matrix[i, j])
+        end
+
+        plotDF = DataFrame(x = x, y = y, value = z)
+        return plotDF
+    end
+
+    # Plot the starting matrix
+    @vlplot(
+        data = convertDataFrame(matrix),
+        y = "x:o",
+        x = "y:o",
+        width = 400,
+        height = 400,
+        config={
+            scale = {bandPaddingInner = 0, bandPaddingOuter = 0},
+            text = {baseline=:middle}
+        }) +
+    @vlplot(:rect, color = :value, scheme = "accent") +
+    @vlplot(
+        :text,
+        text = "value",
+        color = {
+            value = :white
+        })
+end
+
+heatmapPlot(matrix)
+
+# How many iterations till 1 factor is left?
+i = 1
+while length(unique(matrix)) > 1
+    matrix = reshape(
+        map(x -> getAdjacentPositions(matrixPosition[x], size), 1:length(matrix)),
+        size[1], size[2])
+        global matrix
+        global i += 1
+end
+println(i)

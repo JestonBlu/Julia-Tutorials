@@ -117,3 +117,4 @@ while length(unique(matrix)) > 1
         global i += 1
 end
 println(i)
+i

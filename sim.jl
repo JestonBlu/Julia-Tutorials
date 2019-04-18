@@ -7,7 +7,7 @@ using DataFrames
 using VegaLite
 
 # Starting matrix size
-size = (9, 9)
+size = (3, 3)
 
 # Generate random matrix
 matrix = rand(1:8, size[1], size[2])

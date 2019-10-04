@@ -14,6 +14,7 @@ matrix = rand(1:8, size[1], size[2])
 
 # Create empty array and append each matrix position to loop through
 matrixPosition = Array([])
+
 for i in 1:size[1], j in 1:size[2]
     push!(matrixPosition, (i,j))
 end
@@ -117,4 +118,3 @@ while length(unique(matrix)) > 1
         global i += 1
 end
 println(i)
-i

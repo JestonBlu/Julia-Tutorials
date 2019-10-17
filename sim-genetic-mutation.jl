@@ -7,25 +7,25 @@ using DataFrames
 using VegaLite
 
 # Starting matrix size
-size = (3, 3)
+matrixSize = (3, 3)
 
 # Generate random matrix
-matrix = rand(1:8, size[1], size[2])
+matrix = rand(1:8, matrixSize[1], matrixSize[2])
 
 # Create empty array and append each matrix position to loop through
 matrixPosition = Array([])
 
-for i in 1:size[1], j in 1:size[2]
+for i in 1:matrixSize[1], j in 1:matrixSize[2]
     push!(matrixPosition, (i,j))
 end
 
 # Function for getting a list of all adjacent positions and values
-function getAdjacentPositions(matrixPosition::Tuple, size::Tuple)
+function getAdjacentPositions(matrixPosition::Tuple, matrixSize::Tuple)
     # Position limits
-    bottomRight = deepcopy(size)
-    bottomLeft  = (size[1], size[2] - size[2] + 1)
-    topRight    = (size[1] - size[1] + 1, size[2])
-    topLeft     = (size[1] - size[1] + 1, size[2] - size[2] + 1)
+    bottomRight = deepcopy(matrixSize)
+    bottomLeft  = (matrixSize[1], matrixSize[2] - matrixSize[2] + 1)
+    topRight    = (matrixSize[1] - matrixSize[1] + 1, matrixSize[2])
+    topLeft     = (matrixSize[1] - matrixSize[1] + 1, matrixSize[2] - matrixSize[2] + 1)
 
     # Positions adjacent to current
     oneUp    = (matrixPosition[1], matrixPosition[2] - 1)
@@ -66,8 +66,8 @@ function getAdjacentPositions(matrixPosition::Tuple, size::Tuple)
 end
 
 matrix = reshape(
-    map(x -> getAdjacentPositions(matrixPosition[x], size), 1:length(matrix)),
-    size[1], size[2]
+    map(x -> getAdjacentPositions(matrixPosition[x], matrixSize), 1:length(matrix)),
+    matrixSize[1], matrixSize[2]
     )
 
 # Plot the heatmap
@@ -76,7 +76,7 @@ function heatmapPlot(matrix)
     # Convert matrix into a data frame for plotting
     function convertDataFrame(matrix)
         x = []; y = []; z = []
-        for i in 1:size[1], j in 1:size[2]
+        for i in 1:matrixSize[1], j in 1:matrixSize[2]
             push!(x, string("x", i))
             push!(y, string("y", j))
             push!(z, matrix[i, j])
@@ -112,8 +112,8 @@ heatmapPlot(matrix)
 i = 1
 while length(unique(matrix)) > 1
     matrix = reshape(
-        map(x -> getAdjacentPositions(matrixPosition[x], size), 1:length(matrix)),
-        size[1], size[2])
+        map(x -> getAdjacentPositions(matrixPosition[x], matrixSize), 1:length(matrix)),
+        matrixSize[1], matrixSize[2])
         global matrix
         global i += 1
 end

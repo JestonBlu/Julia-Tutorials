@@ -21,17 +21,20 @@ end
 
 # Function for getting a list of all adjacent positions and values
 function getAdjacentPositions(matrixPosition::Tuple, matrixSize::Tuple)
+
+    x = matrixPosition
+
     # Position limits
-    bottomRight = deepcopy(matrixSize)
-    bottomLeft  = (matrixSize[1], matrixSize[2] - matrixSize[2] + 1)
+    bottomRight = matrixSize
+    bottomLeft  = (matrixSize[1],  matrixSize[2] - matrixSize[2] + 1)
     topRight    = (matrixSize[1] - matrixSize[1] + 1, matrixSize[2])
     topLeft     = (matrixSize[1] - matrixSize[1] + 1, matrixSize[2] - matrixSize[2] + 1)
 
     # Positions adjacent to current
-    oneUp    = (matrixPosition[1], matrixPosition[2] - 1)
-    oneDown  = (matrixPosition[1], matrixPosition[2] + 1)
-    oneLeft  = (matrixPosition[1] - 1, matrixPosition[2])
-    oneRight = (matrixPosition[1] + 1, matrixPosition[2])
+    oneUp     = (x[1], x[2] - 1)
+    oneDown   = (x[1], x[2] + 1)
+    oneLeft   = (x[1] - 1, x[2])
+    oneRight  = (x[1] + 1, x[2])
     positions = [oneUp, oneDown, oneLeft, oneRight]
 
     # Determine which positions fall within the bounds of the matrix
@@ -54,7 +57,7 @@ function getAdjacentPositions(matrixPosition::Tuple, matrixSize::Tuple)
     positions = positions[:, 1]
 
     adjacentLength = length(positions)
-    adjacentValues = Array([matrix[matrixPosition[1], matrixPosition[2]]])
+    adjacentValues = Array([matrix[x[1], x[2]]])
 
     # Loop through the adjacent positions to identify adjacent values
     for i in 1:adjacentLength

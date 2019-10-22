@@ -1,4 +1,4 @@
-# Equivalent function
+# Equivalent functions
 function f(x, y)
     x + y
 end
@@ -24,12 +24,13 @@ h(1,2,3)
 j -> j^2 + 2j - 1
 
 # Functions with more than one return
-function foo(a,b)
-    a+b, a*b
+function foo(a, b)
+    a + b, a * b
 end
 
-foo(2,3)
-x, y = foo(2,3)
+foo(2, 3)
+
+x, y = foo(2, 3)
 x
 y
 

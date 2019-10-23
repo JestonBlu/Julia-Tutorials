@@ -1,6 +1,6 @@
 # Julia Packages
 
-- Distributions (failing)
+- Distributions
 - DataFrames
 - TimeSeries
 - Plots
